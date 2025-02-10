@@ -35,8 +35,21 @@ function App() {
     }
   }
 
+  const signin = async () => {
+    try {
+      const res = await axios.post(`${baseUrl}/v2/admin/signin`, {
+        username: 'dog@gmail.com',
+        password: '999888'
+      });
+      const { token, expired } = res.data;
+      document.cookie = `dogfood=${token}; expires=${new Date(expired)}`;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() =>{
+    signin();
     const token = document.cookie.replace(
       /(?:(?:^|.*;\s*)dogfood\s*\=\s*([^;]*).*$)|^.*$/,
       "$1",
